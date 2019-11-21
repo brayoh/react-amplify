@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
-import styled from 'styled-components';
 import { Spin, Icon, Button, Form, notification, Input, Row, Col } from 'antd';
 
 // amplify
@@ -8,22 +7,7 @@ import { Auth } from 'aws-amplify';
 
 /** Presentational */
 import FullWidthWrapper from '../../Components/Styled/FullWidthWrapper';
-
-const FormWrapper = styled(Form)`
-  display: flex;
-  flex-flow: wrap row;
-  max-width: 50%;
-  width: 100%;
-  border: 1px solid #ebedf0;
-  margin: 7% auto !important;
-  padding: 42px 24px 50px !important;
-  background: #ffffff;
-  justify-content: space-around;
-
-  input {
-    text-align: center;
-  }
-`;
+import EmailConfirmFormWrapper from '../../Components/Styled/EmailConfirmFormWrapper';
 
 type State = {
   username: string;
@@ -112,26 +96,30 @@ class ConfirmEmailContainer extends React.Component<RouteComponentProps, State> 
 
     /** Update input */
     this.setState({ confirmationCode: code });
+
     // regex to check if string is numbers only
     const reg = new RegExp('^[0-9]+$');
 
     if (reg.test(code) && code.length === 6) {
       // code is a valid number
-      console.log(code);
+
+      this.setState({ loading: true });
+
+      Auth.confirmSignUp(this.state.username, code)
+        .then(() => {
+          this.handleOpenNotification('success', 'Succesfully confirmed!', 'You will be redirected to login in a few!');
+        })
+        .catch(err => {
+          this.handleOpenNotification('error', 'Invalid code', err.message);
+          this.setState({
+            loading: false,
+          });
+        });
     }
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ confirmationCode: event.currentTarget.value });
-  };
-
-  validateCode = (code: string) => {
-    const pattern = new RegExp('^[0-9]+$');
-
-    if (code.length === 6) {
-      const check = pattern.test(code);
-      console.log(code, check);
-    }
   };
 
   redirectAfterConfirmation = () => {
@@ -146,11 +134,10 @@ class ConfirmEmailContainer extends React.Component<RouteComponentProps, State> 
 
   render() {
     const { loading, error, confirmationCode } = this.state;
-    const circularIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
     return (
       <FullWidthWrapper align="center">
-        <FormWrapper onSubmit={this.handleSubmit}>
+        <EmailConfirmFormWrapper onSubmit={this.handleSubmit}>
           <Col md={24} lg={18}>
             <div className="full-width">
               <h2>Check your email</h2>
@@ -169,10 +156,10 @@ class ConfirmEmailContainer extends React.Component<RouteComponentProps, State> 
           </Col>
           <Col md={24} lg={12}>
             <Button type="primary" disabled={loading} htmlType="submit" size="large" className="signup-form-button">
-              {loading ? <Spin indicator={circularIcon} /> : 'Confirm Email'}
+              {loading ? <Spin indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} /> : 'Confirm Email'}
             </Button>
           </Col>
-        </FormWrapper>
+        </EmailConfirmFormWrapper>
         {this.redirectAfterConfirmation()}
       </FullWidthWrapper>
     );

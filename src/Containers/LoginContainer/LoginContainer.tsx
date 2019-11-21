@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { Link, Redirect } from 'react-router-dom';
-
-// aws amplify
 import { Auth } from 'aws-amplify';
+import { Form, Icon, Spin, Input, Button, notification, Col, Row } from 'antd';
 
-// ant imports
-import { Form, Icon, Spin, Input, Button, Checkbox, notification } from 'antd';
-
-// stylesheet
-import './LoginContainer.css';
+/** Presentational */
+import FormWrapper from '../../Components/Styled/FormWrapper';
 
 type Props = {
   form: any;
@@ -98,11 +94,9 @@ class LoginContainer extends React.Component<Props, State> {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { loading, redirect } = this.state;
-    const circularIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
-
     return (
       <React.Fragment>
-        <Form onSubmit={this.handleSubmit} className="login-form">
+        <FormWrapper onSubmit={this.handleSubmit} className="login-form">
           <FormItem>
             {getFieldDecorator('username', {
               rules: [
@@ -130,17 +124,29 @@ class LoginContainer extends React.Component<Props, State> {
             )}
           </FormItem>
           <FormItem className="text-center">
-            <React.Fragment>
-              <Link className="login-form-forgot" to="/forgot-password">
-                Forgot password
-              </Link>
-              <Button type="primary" disabled={loading} htmlType="submit" className="login-form-button">
-                {loading ? <Spin indicator={circularIcon} /> : 'Log in'}
-              </Button>
-              Or <Link to="/signup">register now!</Link>
-            </React.Fragment>
+            <Row type="flex" gutter={16}>
+              <Col lg={24}>
+                <Link style={{ float: 'right' }} className="login-form-forgot" to="/forgot-password">
+                  Forgot password
+                </Link>
+              </Col>
+              <Col lg={24}>
+                <Button
+                  style={{ width: '100%' }}
+                  type="primary"
+                  disabled={loading}
+                  htmlType="submit"
+                  className="login-form-button"
+                >
+                  {loading ? <Spin indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} /> : 'Log in'}
+                </Button>
+              </Col>
+              <Col lg={24}>
+                Or <Link to="/signup">register now!</Link>
+              </Col>
+            </Row>
           </FormItem>
-        </Form>
+        </FormWrapper>
         {redirect && (
           <Redirect
             to={{

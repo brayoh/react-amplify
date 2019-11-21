@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { Link, Redirect } from 'react-router-dom';
-
-// aws amplify
 import { Auth } from 'aws-amplify';
+import { Form, Input, Icon, Button, notification, Popover, Spin, Col, Row } from 'antd';
 
-// ant imports
-import { Form, Input, Icon, Button, notification, Popover, Spin } from 'antd';
-
-// stylesheet
-import './SignUpContainer.css';
+/** Presentational */
+import FormWrapper from '../../Components/Styled/FormWrapper';
 
 type Props = {
   form: any;
@@ -37,6 +33,7 @@ type UserFormData = {
 const passwordValidator = require('password-validator');
 
 const FormItem = Form.Item;
+
 // create a password schema
 const schema = new passwordValidator();
 
@@ -247,11 +244,9 @@ class SignUpContainer extends React.Component<Props, State> {
       </React.Fragment>
     );
 
-    const circularIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
-
     return (
       <React.Fragment>
-        <Form onSubmit={this.handleSubmit} className="signup-form">
+        <FormWrapper onSubmit={this.handleSubmit} className="signup-form">
           <FormItem>
             {getFieldDecorator('fname', {
               rules: [
@@ -272,13 +267,11 @@ class SignUpContainer extends React.Component<Props, State> {
               ],
             })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Last Name" />)}
           </FormItem>
-
           <FormItem>
             {getFieldDecorator('email', {
               rules: [{ required: true, message: 'Please input your email!' }],
             })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Email" />)}
           </FormItem>
-
           <FormItem>
             {getFieldDecorator('phoneNumber', {
               rules: [
@@ -291,7 +284,6 @@ class SignUpContainer extends React.Component<Props, State> {
               <Input prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Phone Number" />
             )}
           </FormItem>
-
           <FormItem>
             <Popover placement="right" title={title} content={passwordPolicyContent} trigger="focus">
               {getFieldDecorator('password', {
@@ -310,7 +302,6 @@ class SignUpContainer extends React.Component<Props, State> {
               )}
             </Popover>
           </FormItem>
-
           <FormItem>
             {getFieldDecorator('confirm', {
               rules: [
@@ -333,14 +324,18 @@ class SignUpContainer extends React.Component<Props, State> {
           </FormItem>
 
           <FormItem className="text-center">
-            <React.Fragment>
-              <Button type="primary" disabled={loading} htmlType="submit" className="signup-form-button">
-                {loading ? <Spin indicator={circularIcon} /> : 'Register'}
-              </Button>
-              Or <Link to="/login">login to your account!</Link>
-            </React.Fragment>
+            <Row>
+              <Col lg={24}>
+                <Button style={{ width: '100%' }} type="primary" disabled={loading} htmlType="submit">
+                  {loading ? <Spin indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} /> : 'Register'}
+                </Button>
+              </Col>
+              <Col lg={24}>
+                Or <Link to="/login">login to your account!</Link>
+              </Col>
+            </Row>
           </FormItem>
-        </Form>
+        </FormWrapper>
         {redirect && (
           <Redirect
             to={{

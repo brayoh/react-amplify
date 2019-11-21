@@ -1,19 +1,21 @@
 import * as React from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
-
-// aws amplify
 import { Auth } from 'aws-amplify';
-
-// ant imports
 import { Form, Input, Icon, Button, notification, Popover, Spin } from 'antd';
 
 type Props = RouteComponentProps & {
   form: any;
 };
 
+type State = {
+  confirmDirty: boolean;
+  redirect: boolean;
+  loading: boolean;
+};
+
 const FormItem = Form.Item;
 
-class PasswordResetContainer extends React.Component<Props> {
+class PasswordResetContainer extends React.Component<Props, State> {
   state = {
     confirmDirty: false,
     redirect: false,
@@ -27,11 +29,7 @@ class PasswordResetContainer extends React.Component<Props> {
    *
    * @returns {void} - no value returned
    */
-  handleOpenNotification = (
-    type: string,
-    title: string,
-    message: string
-  ): void => {
+  handleOpenNotification = (type: string, title: string, message: string): void => {
     switch (type) {
       case 'success':
         notification['success']({
@@ -58,17 +56,13 @@ class PasswordResetContainer extends React.Component<Props> {
     }
   };
 
-  handleConfirmBlur = (event: React.FormEvent<HTMLInputElement>) => {
+  handleBlur = (event: React.FormEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
 
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
-  compareToFirstPassword = (
-    rule: object,
-    value: string,
-    callback: (message?: string) => void
-  ) => {
+  compareToFirstPassword = (rule: object, value: string, callback: (message?: string) => void) => {
     const form = this.props.form;
 
     if (value && value !== form.getFieldValue('password')) {
@@ -78,11 +72,7 @@ class PasswordResetContainer extends React.Component<Props> {
     }
   };
 
-  validateToNextPassword = (
-    rule: object,
-    value: string,
-    callback: (message?: string) => void
-  ) => {
+  validateToNextPassword = (rule: object, value: string, callback: (message?: string) => void) => {
     const form = this.props.form;
     if (value && this.state.confirmDirty) {
       form.validateFields(['confirm'], { force: true });
@@ -93,38 +83,32 @@ class PasswordResetContainer extends React.Component<Props> {
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    this.props.form.validateFieldsAndScroll(
-      (err: Error, values: { password: string; code: string }) => {
-        if (!err) {
-          let { password, code } = values;
-          let username = this.props.location.search.split('=')[1];
+    this.props.form.validateFieldsAndScroll((err: Error, values: { password: string; code: string }) => {
+      if (!err) {
+        let { password, code } = values;
+        let username = this.props.location.search.split('=')[1];
 
-          Auth.forgotPasswordSubmit(
-            username.trim(),
-            code.trim(),
-            password.trim()
-          )
-            .then(() => {
-              this.handleOpenNotification(
-                'success', // type
-                'Success!', // title
-                'Password reset successful, Redirecting you in a few!'
-              );
-            })
-            .catch(err => {
-              this.handleOpenNotification(
-                'error', // type
-                'Error reseting password', // title
-                err.message // message
-              );
-              this.setState({ loading: false });
-            });
+        Auth.forgotPasswordSubmit(username.trim(), code.trim(), password.trim())
+          .then(() => {
+            this.handleOpenNotification(
+              'success', // type
+              'Success!', // title
+              'Password reset successful, Redirecting you in a few!'
+            );
+          })
+          .catch(err => {
+            this.handleOpenNotification(
+              'error', // type
+              'Error reseting password', // title
+              err.message // message
+            );
+            this.setState({ loading: false });
+          });
 
-          // show loader
-          this.setState({ loading: true });
-        }
+        // show loader
+        this.setState({ loading: true });
       }
-    );
+    });
   };
 
   render() {
@@ -145,8 +129,6 @@ class PasswordResetContainer extends React.Component<Props> {
       </React.Fragment>
     );
 
-    const circularIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
-
     return (
       <React.Fragment>
         <Form onSubmit={this.handleSubmit} className="signup-form">
@@ -163,21 +145,14 @@ class PasswordResetContainer extends React.Component<Props> {
               ],
             })(
               <Input
-                prefix={
-                  <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                 placeholder="Enter your verification code"
               />
             )}
           </FormItem>
 
           <FormItem>
-            <Popover
-              placement="right"
-              title={title}
-              content={passwordPolicyContent}
-              trigger="focus"
-            >
+            <Popover placement="right" title={title} content={passwordPolicyContent} trigger="focus">
               {getFieldDecorator('password', {
                 rules: [
                   { required: true, message: 'Please input your Password!' },
@@ -187,9 +162,7 @@ class PasswordResetContainer extends React.Component<Props> {
                 ],
               })(
                 <Input
-                  prefix={
-                    <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
-                  }
+                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   type="password"
                   placeholder="New Password"
                 />
@@ -210,26 +183,20 @@ class PasswordResetContainer extends React.Component<Props> {
               ],
             })(
               <Input
-                prefix={
-                  <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                 type="password"
                 placeholder="Confirm Password"
-                onBlur={this.handleConfirmBlur}
+                onBlur={this.handleBlur}
               />
             )}
           </FormItem>
 
           <FormItem className="text-center">
             {this.state.loading ? (
-              <Spin indicator={circularIcon} />
+              <Spin indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />
             ) : (
               <React.Fragment>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="signup-form-button"
-                >
+                <Button type="primary" htmlType="submit" className="signup-form-button">
                   Reset password
                 </Button>
               </React.Fragment>
