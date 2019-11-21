@@ -9,6 +9,11 @@
             "UnauthRoleName": "react-amplify-dev-20191119125822-unauthRole",
             "StackName": "react-amplify-dev-20191119125822",
             "StackId": "arn:aws:cloudformation:eu-west-1:625705783157:stack/react-amplify-dev-20191119125822/1fc7e840-0ab3-11ea-a098-02aed67d8a72"
+        },
+        "categories": {
+            "auth": {
+                "reactAmplifyCognito": {}
+            }
         }
     }
 }

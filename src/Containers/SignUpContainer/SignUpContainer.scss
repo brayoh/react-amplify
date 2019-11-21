@@ -1,0 +1,18 @@
+@import '../../../styles/partials/variables';
+
+.signup-form {
+  max-width: 350px;
+  border: 1px solid $grey-border;
+  margin: 7% auto !important;
+  padding: 42px 24px 50px !important;
+  background: $white;
+
+  a {
+    text-align: center;
+  }
+}
+
+.signup-form-button {
+  display: flex;
+  width: 100%;
+}

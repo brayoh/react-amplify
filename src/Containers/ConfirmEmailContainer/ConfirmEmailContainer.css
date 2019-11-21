@@ -1,0 +1,36 @@
+.verify-email-form {
+  display: flex;
+  flex-flow: wrap row;
+  max-width: 50%;
+  width: 100%;
+  border: 1px solid #ebedf0;
+  margin: 7% auto !important;
+  padding: 42px 24px 50px !important;
+  background: #ffffff;
+  justify-content: space-between;
+}
+.verify-email-form input {
+  text-align: center;
+}
+.verify-email-form .btn-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+.verify-email-form .btn-container button {
+  width: 50%;
+  align-self: center;
+}
+.verify-email-form .single-input {
+  width: 80px;
+  height: 100px;
+  text-align: center;
+  font-size: 40px;
+  margin: 10px;
+  outline: none;
+  border: 1px solid #ebedf0;
+}
+.verify-email-form .single-input:focus {
+  border: 1px solid #1890ff;
+}
