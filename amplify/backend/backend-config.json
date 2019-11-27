@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"reactAmplifyCognito": {
+		"reactAmplify": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation"
 		}

@@ -105,10 +105,7 @@ Parameters:
             
   resourceName:
     Type: String
-                  
-  usernameAttributes:
-    Type: CommaDelimitedList
-        
+              
   hostedUI:
     Type: String
                                                 
@@ -177,8 +174,6 @@ Resources:
           RequireNumbers: true
           RequireSymbols: true
           RequireUppercase: true
-      
-      UsernameAttributes: !Ref usernameAttributes
           
       MfaConfiguration: !Ref mfaConfiguration
       SmsVerificationMessage: !Ref smsVerificationMessage
@@ -191,7 +186,7 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: reactA121e4ae9_app_clientWeb
+      ClientName: reactA60ae64e2_app_clientWeb
       
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool

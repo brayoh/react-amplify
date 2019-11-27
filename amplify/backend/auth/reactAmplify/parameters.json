@@ -1,5 +1,5 @@
 {
-    "userPoolName": "react_amplify_cognito_user_pool",
+    "userPoolName": "react_amplify_user_pool",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -7,9 +7,9 @@
     "mfaTypes": [
         "SMS Text Message"
     ],
-    "roleName": "reactA121e4ae9_sns-role",
-    "roleExternalId": "reactA121e4ae9_role_external_id",
-    "policyName": "reactA121e4ae9-sns-policy",
+    "roleName": "reactA60ae64e2_sns-role",
+    "roleExternalId": "reactA60ae64e2_role_external_id",
+    "policyName": "reactA60ae64e2-sns-policy",
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
     "emailVerificationSubject": "Your verification code",
@@ -25,7 +25,7 @@
     "requiredAttributes": [
         "email"
     ],
-    "userpoolClientName": "reactA121e4ae9_app_client",
+    "userpoolClientName": "reactA60ae64e2_app_client",
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
@@ -34,20 +34,17 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "mfaLambdaRole": "reactA121e4ae9_totp_lambda_role",
-    "mfaLambdaLogPolicy": "reactA121e4ae9_totp_lambda_log_policy",
-    "mfaPassRolePolicy": "reactA121e4ae9_totp_pass_role_policy",
-    "mfaLambdaIAMPolicy": "reactA121e4ae9_totp_lambda_iam_policy",
-    "userpoolClientLambdaRole": "reactA121e4ae9_userpoolclient_lambda_role",
-    "userpoolClientLogPolicy": "reactA121e4ae9_userpoolclient_lambda_log_policy",
-    "userpoolClientLambdaPolicy": "reactA121e4ae9_userpoolclient_lambda_iam_policy",
+    "mfaLambdaRole": "reactA60ae64e2_totp_lambda_role",
+    "mfaLambdaLogPolicy": "reactA60ae64e2_totp_lambda_log_policy",
+    "mfaPassRolePolicy": "reactA60ae64e2_totp_pass_role_policy",
+    "mfaLambdaIAMPolicy": "reactA60ae64e2_totp_lambda_iam_policy",
+    "userpoolClientLambdaRole": "reactA60ae64e2_userpoolclient_lambda_role",
+    "userpoolClientLogPolicy": "reactA60ae64e2_userpoolclient_lambda_log_policy",
+    "userpoolClientLambdaPolicy": "reactA60ae64e2_userpoolclient_lambda_iam_policy",
     "userpoolClientSetAttributes": false,
     "useDefault": "manual",
     "authSelections": "userPoolOnly",
-    "resourceName": "reactAmplifyCognito",
-    "usernameAttributes": [
-        "email"
-    ],
+    "resourceName": "reactAmplify",
     "hostedUI": false,
     "authRoleName": {
         "Ref": "AuthRoleName"

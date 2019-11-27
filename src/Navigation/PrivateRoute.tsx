@@ -1,38 +1,29 @@
 import * as React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, RouteComponentProps } from 'react-router-dom';
 
-const PrivateRoute = (props: any) => {
-  const { isAuthenticated, authorize, userRole, loading, component } = props;
-  const Component = component;
+/** Helpers */
+import { validateToken } from '../Utils/helpers';
 
-  // usergroups
-  const roles: Array<string> = ['member', 'stakeholder', 'vendor', 'logistics'];
+/** Constants */
+import { AUTH_USER_TOKEN_KEY } from '../Utils/constants';
 
-  // check if user is authorized to view route
-  const checkUserAuthorized = () =>
-    roles.some(
-      role => authorize.includes(role) && authorize.includes(userRole)
-    );
-
-  const userAuthCheck = isAuthenticated && checkUserAuthorized();
+const PrivateRoute = ({ component: Component, ...rest }: any & { component: any }) => {
+  const checkUserAuth = validateToken(localStorage.getItem(AUTH_USER_TOKEN_KEY));
 
   return (
     <Route
-      {...props}
-      render={props =>
-        userAuthCheck ? (
+      {...rest}
+      render={props => {
+        return checkUserAuth ? (
           <Component {...props} />
         ) : (
-          !loading && (
-            <Redirect
-              to={{
-                pathname: '/login',
-                state: { from: props.location }
-              }}
-            />
-          )
-        )
-      }
+          <Redirect
+            to={{
+              pathname: '/login'
+            }}
+          />
+        );
+      }}
     />
   );
 };

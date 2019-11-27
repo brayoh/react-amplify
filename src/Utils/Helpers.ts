@@ -1,8 +1,19 @@
-// generator function to loop through the verification code
-export function* getCode(code: string) {
-  let codeString: string = `${code}`;
+const jwtDecode = require('jwt-decode');
 
-  for (let i = 0; i < codeString.length; i++) {
-    yield parseInt(codeString[i]);
+/**
+ * helper method to validate  user token
+ *
+ * @param {*} token
+ * @returns {boolean}
+ */
+export const validateToken = (token: any): boolean => {
+  if (!token) {
+    return false;
   }
-}
+  try {
+    const decodedJwt: any = jwtDecode(token);
+    return decodedJwt.exp >= Date.now() / 1000;
+  } catch (e) {
+    return false;
+  }
+};
