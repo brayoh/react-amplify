@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Route, Redirect, RouteComponentProps } from 'react-router-dom';
 
 /** Helpers */
-import { validateToken } from '../Utils/helpers';
+import { validateToken } from '../Utils/Helpers';
 
 /** Constants */
 import { AUTH_USER_TOKEN_KEY } from '../Utils/constants';
