@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Route, Redirect, RouteComponentProps } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 /** Helpers */
 import { validateToken } from '../Utils/helpers';
